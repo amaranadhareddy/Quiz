@@ -7,57 +7,52 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import static com.sapient.util.ExamUtil.*;
 
 import com.sapient.util.ExamUtil;
 import com.sapient.vo.Question;
 
-public class ExamDaoImpl implements IDao {
+public class ExamDaoImpl implements Idao{
 	
-	private static IDao dao=new ExamDaoImpl();
+	private static Idao dao =new ExamDaoImpl();
+	
 	private ExamDaoImpl(){
 		
 	}
 	
-	public static IDao getDaoInstance(){
+	public static Idao getDaoInstance(){
 		return dao;
 	}
 	
-	
-	static
-	{
+	static{
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Class.forName(DRIVER);
 		} catch (ClassNotFoundException e) {
-			
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public Map<Integer, Question> viewQuestion() {
-		 Map<Integer, Question> map=new HashMap<>();
-		Question ques=null;
-		String url="jdbc:oracle:thin:@localhost:1521:xe";
-		
-		
-		try (Connection conn = DriverManager.getConnection(url,ExamUtil.UNAME,ExamUtil.PWD)) {
+	public Map<Integer, Question> viewQuestions() {
+		Map<Integer,Question> map = new HashMap<>();
+		Question ques = null;
+		String url = URL;
+		try(Connection conn = DriverManager.getConnection(url,UNAME,PWD)){
 			String sql = "select * from questions";
 			PreparedStatement st = conn.prepareStatement(sql);
 			ResultSet rs = st.executeQuery();
+			
 			while(rs.next()){
-				
-				ques = new Question(rs.getInt("qid"),rs.getString("qdesc"),rs.getString("optiona"),rs.getString("optionb"),rs.getString("optionc"),rs.getString("answer"));
-			map.put(rs.getInt("qid"),ques );
+				ques =  new Question(rs.getInt("qid"), rs.getString("qdesc"), rs.getString("optionA"), rs.getString("optionB"), rs.getString("optionC"),rs.getString("answer"));
+				map.put(ques.getQid(), ques);
+
 			}
 			
-		} catch (SQLException e) {
+			
+		}catch(SQLException e){
 			System.out.println(e.getMessage());
 		}
-		return map; 
+		return map;
 	}
 
-	
-	
-	
-	
 }

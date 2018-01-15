@@ -7,9 +7,8 @@ import com.sapient.vo.Question;
 
 public interface IExamSer {
 	
-	List<Question> generateQuestions();
-	int evaluate(List<Answer> anslist);
-	List<Question> generateUniqueNos();
+	List<Question> generateQuestions(int nos);
+	int evaluate(List<Answer> alist);
 	
 
 }

@@ -5,7 +5,9 @@ public class Answer {
 	private int qid;
 	private String answer;
 	
-	public Answer(){}
+	public Answer(){
+		
+	}
 	
 	
 	public Answer(int qid, String answer) {

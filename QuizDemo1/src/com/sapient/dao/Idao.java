@@ -4,8 +4,8 @@ import java.util.Map;
 
 import com.sapient.vo.Question;
 
-public interface IDao {
+public interface Idao {
 	
-	Map<Integer, Question> viewQuestion();
+	Map<Integer,Question> viewQuestions();
 
 }
